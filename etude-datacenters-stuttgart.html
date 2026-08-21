@@ -1,0 +1,440 @@
+<title>Fiabilité DC Stuttgart</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4f6f4;
+    --surface: #ffffff;
+    --surface-2: #edf0ee;
+    --border: rgba(13,17,23,0.11);
+    --border-strong: rgba(13,17,23,0.18);
+    --ink: #0d1117;
+    --ink-2: #454e58;
+    --muted: #868f99;
+    --accent: #3c34ad;
+    --accent-ink: #ffffff;
+    --accent-soft: #eeecfb;
+    --good: #0ca30c;
+    --critical: #d03b3b;
+    --site-vai: #2a78d6;
+    --site-unt: #eb6834;
+    --site-moe: #1baf7a;
+    --site-sin: #c98700;
+    --shadow: 0 1px 2px rgba(13,17,23,0.05), 0 8px 24px -12px rgba(13,17,23,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0c0f13;
+      --surface: #151a20;
+      --surface-2: #1b2129;
+      --border: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.18);
+      --ink: #eef1f4;
+      --ink-2: #b3bcc6;
+      --muted: #7c8792;
+      --accent: #9b93f0;
+      --accent-ink: #14101f;
+      --accent-soft: #221f3a;
+      --good: #0ca30c;
+      --critical: #e66767;
+      --site-vai: #3987e5;
+      --site-unt: #d95926;
+      --site-moe: #199e70;
+      --site-sin: #c98500;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0c0f13;
+    --surface: #151a20;
+    --surface-2: #1b2129;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.18);
+    --ink: #eef1f4;
+    --ink-2: #b3bcc6;
+    --muted: #7c8792;
+    --accent: #9b93f0;
+    --accent-ink: #14101f;
+    --accent-soft: #221f3a;
+    --good: #0ca30c;
+    --critical: #e66767;
+    --site-vai: #3987e5;
+    --site-unt: #d95926;
+    --site-moe: #199e70;
+    --site-sin: #c98500;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .num { font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+  a { color: var(--accent); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px 64px; }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+    text-decoration: none; margin-bottom: 18px;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* ---------- Header ---------- */
+  header { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--border);
+    padding: 5px 10px; border-radius: 999px;
+  }
+  h1 { font-size: clamp(24px, 3.2vw, 34px); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+  .subtitle { color: var(--ink-2); font-size: 14.5px; max-width: 70ch; margin: 0; }
+  .fictive-note {
+    font-size: 12.5px; color: var(--muted); border-left: 3px solid var(--border-strong);
+    padding: 6px 0 6px 12px; margin-top: 4px; max-width: 68ch;
+  }
+
+  section { margin-top: 34px; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 18px; margin: 0; }
+  .section-head .hint { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- KPI stat row ---------- */
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 16px 14px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+  }
+  .stat-card .swatch { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .stat-card .site-name { font-size: 13.5px; font-weight: 600; margin: 4px 0 2px; }
+  .stat-card .rank-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .rank-badge {
+    font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+    background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--border);
+  }
+  .rank-badge.top { background: color-mix(in srgb, var(--good) 16%, transparent); color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, transparent); }
+  .rank-badge.bottom { background: color-mix(in srgb, var(--critical) 14%, transparent); color: var(--critical); border-color: color-mix(in srgb, var(--critical) 35%, transparent); }
+  .stat-card .score { font-size: 30px; font-weight: 700; }
+  .stat-card .score-unit { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .stat-card .flag { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+
+  /* ---------- Legend ---------- */
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+  .legend .dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+
+  /* ---------- Composite ranking bar chart ---------- */
+  .rank-chart { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px 14px; box-shadow: var(--shadow); }
+  .rank-row-chart { display: grid; grid-template-columns: 168px 1fr 64px; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .rank-row-chart:last-child { border-bottom: none; }
+  .rank-row-chart .label { font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .rank-row-chart .num-badge { font-size: 11px; color: var(--muted); font-weight: 700; width: 16px; }
+  .bar-track { position: relative; height: 20px; background: var(--surface-2); border-radius: 5px; overflow: hidden; }
+  .bar-fill { position: absolute; inset: 0 auto 0 0; border-radius: 5px; transition: filter 0.15s ease; }
+  .bar-fill:hover { filter: brightness(1.08); }
+  .rank-row-chart .value { text-align: right; font-size: 14px; font-weight: 700; }
+  .rank-row-chart .value .unit { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+  /* ---------- KPI breakdown small multiples ---------- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .kpi-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 14px 12px; box-shadow: var(--shadow); }
+  .kpi-panel h3 { font-size: 12.5px; font-weight: 700; margin: 0 0 2px; }
+  .kpi-panel .kpi-desc { font-size: 11px; color: var(--muted); margin: 0 0 12px; line-height: 1.35; min-height: 28px; }
+  .mini-bars { display: flex; align-items: flex-end; gap: 8px; height: 108px; padding-top: 4px; }
+  .mini-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; position: relative; }
+  .mini-bar { width: 100%; border-radius: 3px 3px 0 0; position: relative; transition: filter 0.15s ease; }
+  .mini-bar:hover { filter: brightness(1.1); }
+  .mini-bar-val { font-size: 10.5px; font-weight: 700; }
+  .mini-bar-tip {
+    position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-4px);
+    background: var(--ink); color: var(--bg); font-size: 10.5px; padding: 3px 6px; border-radius: 5px;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.12s ease; z-index: 2;
+  }
+  .mini-bar-col:hover .mini-bar-tip { opacity: 1; }
+
+  /* ---------- Table ---------- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; background: var(--surface); }
+  thead th {
+    text-align: right; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--ink-2); font-weight: 700; padding: 10px 12px; border-bottom: 1px solid var(--border-strong);
+    background: var(--surface-2); white-space: nowrap;
+  }
+  thead th:first-child, tbody td:first-child { text-align: left; }
+  tbody td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .dot-sm { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  tbody tr.best-row td.composite { color: var(--good); font-weight: 700; }
+
+  /* ---------- Insights ---------- */
+  .insight-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); padding: 20px 22px; }
+  .insight-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; }
+  .insight-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .insight-list li { display: flex; gap: 10px; font-size: 13.5px; color: var(--ink-2); }
+  .insight-list .n { flex: none; width: 20px; height: 20px; border-radius: 5px; background: var(--accent-soft); color: var(--accent); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .insight-list b { color: var(--ink); }
+  .method-box { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 13px; color: var(--ink-2); }
+  .method-box h4 { margin: 0 0 8px; font-size: 12.5px; color: var(--ink); }
+  .weights { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .weight-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .weight-row .wname { width: 130px; flex: none; color: var(--ink-2); }
+  .weight-track { flex: 1; height: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .weight-fill { height: 100%; background: var(--accent); }
+  .weight-row .wval { width: 32px; text-align: right; font-weight: 700; color: var(--ink); }
+
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 11.5px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 880px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .insight-grid { grid-template-columns: 1fr; }
+    .rank-row-chart { grid-template-columns: 110px 1fr 52px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <a class="back-link" href="index.html">&larr; Retour au portfolio</a>
+
+  <header>
+    <span class="eyebrow">Jeu de données fictif &middot; analyse illustrative</span>
+    <h1>Fiabilité des Centres de Données — Sites de Stuttgart</h1>
+    <p class="subtitle">100 enregistrements de supervision synthétiques répartis sur quatre sites hypothétiques dans la région de Stuttgart, évalués selon cinq indicateurs de fiabilité afin d'identifier le site le plus fiable sur le plan opérationnel.</p>
+    <p class="fictive-note">Toutes les données de cette page sont générées de manière synthétique à des fins pédagogiques — elles ne représentent pas l'infrastructure, les incidents ou les performances réels de Daimler.</p>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <h2>Fiches de synthèse par site</h2>
+      <span class="hint">Score de fiabilité composite, pondéré sur les 5 KPI</span>
+    </div>
+    <div class="stat-row">
+
+      <div class="stat-card">
+        <div class="swatch" style="background:var(--site-vai)"></div>
+        <div class="rank-row"><span class="rank-badge top">#1 &middot; Le plus fiable</span></div>
+        <div class="site-name">Daimler DC Vaihingen</div>
+        <div class="score num">68.3<span class="score-unit"> / 100</span></div>
+        <div class="flag">Meilleure disponibilité et meilleur taux de sauvegarde ; récupération plus lente que les autres sites</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="swatch" style="background:var(--site-unt)"></div>
+        <div class="rank-row"><span class="rank-badge">#2</span></div>
+        <div class="site-name">Daimler DC Untertürkheim</div>
+        <div class="score num">64.7<span class="score-unit"> / 100</span></div>
+        <div class="flag">Tombe en panne le moins souvent et récupère le plus vite ; part la plus élevée de maintenance non planifiée</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="swatch" style="background:var(--site-moe)"></div>
+        <div class="rank-row"><span class="rank-badge">#3</span></div>
+        <div class="site-name">Daimler DC Möhringen</div>
+        <div class="score num">32.5<span class="score-unit"> / 100</span></div>
+        <div class="flag">Disponibilité et MTBF les plus faibles du groupe</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="swatch" style="background:var(--site-sin)"></div>
+        <div class="rank-row"><span class="rank-badge bottom">#4 &middot; À surveiller</span></div>
+        <div class="site-name">Daimler DC Sindelfingen</div>
+        <div class="score num">22.3<span class="score-unit"> / 100</span></div>
+        <div class="flag">Récupération la plus lente (MTTR) et taux de sauvegarde le plus faible</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Classement de fiabilité composite</h2>
+      <span class="hint">Score pondéré, 0&ndash;100</span>
+    </div>
+    <div class="rank-chart">
+
+      <div class="rank-row-chart">
+        <div class="label"><span class="num-badge">1</span>Vaihingen</div>
+        <div class="bar-track"><div class="bar-fill" style="width:68.3%; background:var(--site-vai)" title="Vaihingen — 68,3 / 100"></div></div>
+        <div class="value num">68.3</div>
+      </div>
+
+      <div class="rank-row-chart">
+        <div class="label"><span class="num-badge">2</span>Untertürkheim</div>
+        <div class="bar-track"><div class="bar-fill" style="width:64.7%; background:var(--site-unt)" title="Untertürkheim — 64,7 / 100"></div></div>
+        <div class="value num">64.7</div>
+      </div>
+
+      <div class="rank-row-chart">
+        <div class="label"><span class="num-badge">3</span>Möhringen</div>
+        <div class="bar-track"><div class="bar-fill" style="width:32.5%; background:var(--site-moe)" title="Möhringen — 32,5 / 100"></div></div>
+        <div class="value num">32.5</div>
+      </div>
+
+      <div class="rank-row-chart">
+        <div class="label"><span class="num-badge">4</span>Sindelfingen</div>
+        <div class="bar-track"><div class="bar-fill" style="width:22.3%; background:var(--site-sin)" title="Sindelfingen — 22,3 / 100"></div></div>
+        <div class="value num">22.3</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Détail des KPI, normalisé</h2>
+      <span class="hint">Chaque KPI ramené sur une échelle de 0 à 100 au sein de l'échantillon &middot; une valeur plus élevée signifie toujours plus fiable</span>
+    </div>
+
+    <div class="legend">
+      <span class="item"><span class="dot" style="background:var(--site-vai)"></span>Vaihingen</span>
+      <span class="item"><span class="dot" style="background:var(--site-unt)"></span>Untertürkheim</span>
+      <span class="item"><span class="dot" style="background:var(--site-moe)"></span>Möhringen</span>
+      <span class="item"><span class="dot" style="background:var(--site-sin)"></span>Sindelfingen</span>
+    </div>
+
+    <div class="kpi-grid">
+
+      <div class="kpi-panel">
+        <h3>Disponibilité</h3>
+        <p class="kpi-desc">Part du temps en disponibilité totale</p>
+        <div class="mini-bars">
+          <div class="mini-bar-col"><span class="mini-bar-tip">98,78 %</span><span class="mini-bar-val num">100</span><div class="mini-bar" style="height:100%; background:var(--site-vai)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">98,50 %</span><span class="mini-bar-val num">45</span><div class="mini-bar" style="height:45%; background:var(--site-unt)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">98,27 %</span><span class="mini-bar-val num">0</span><div class="mini-bar" style="height:2%; background:var(--site-moe)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">98,37 %</span><span class="mini-bar-val num">21</span><div class="mini-bar" style="height:21%; background:var(--site-sin)"></div></div>
+        </div>
+      </div>
+
+      <div class="kpi-panel">
+        <h3>MTBF</h3>
+        <p class="kpi-desc">Temps moyen entre pannes — plus c'est long, mieux c'est</p>
+        <div class="mini-bars">
+          <div class="mini-bar-col"><span class="mini-bar-tip">505,6 h</span><span class="mini-bar-val num">72</span><div class="mini-bar" style="height:72%; background:var(--site-vai)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">525,6 h</span><span class="mini-bar-val num">100</span><div class="mini-bar" style="height:100%; background:var(--site-unt)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">453,5 h</span><span class="mini-bar-val num">0</span><div class="mini-bar" style="height:2%; background:var(--site-moe)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">465,5 h</span><span class="mini-bar-val num">17</span><div class="mini-bar" style="height:17%; background:var(--site-sin)"></div></div>
+        </div>
+      </div>
+
+      <div class="kpi-panel">
+        <h3>MTTR</h3>
+        <p class="kpi-desc">Temps moyen de réparation — plus c'est court, mieux c'est</p>
+        <div class="mini-bars">
+          <div class="mini-bar-col"><span class="mini-bar-tip">2,82 h</span><span class="mini-bar-val num">12</span><div class="mini-bar" style="height:12%; background:var(--site-vai)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">2,39 h</span><span class="mini-bar-val num">100</span><div class="mini-bar" style="height:100%; background:var(--site-unt)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">2,60 h</span><span class="mini-bar-val num">57</span><div class="mini-bar" style="height:57%; background:var(--site-moe)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">2,88 h</span><span class="mini-bar-val num">0</span><div class="mini-bar" style="height:2%; background:var(--site-sin)"></div></div>
+        </div>
+      </div>
+
+      <div class="kpi-panel">
+        <h3>Discipline planifiée</h3>
+        <p class="kpi-desc">Inverse de la part de maintenance non planifiée — plus c'est élevé, mieux c'est</p>
+        <div class="mini-bars">
+          <div class="mini-bar-col"><span class="mini-bar-tip">46,7 % non planifié</span><span class="mini-bar-val num">52</span><div class="mini-bar" style="height:52%; background:var(--site-vai)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">56,0 % non planifié</span><span class="mini-bar-val num">0</span><div class="mini-bar" style="height:2%; background:var(--site-unt)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">38,1 % non planifié</span><span class="mini-bar-val num">100</span><div class="mini-bar" style="height:100%; background:var(--site-moe)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">41,7 % non planifié</span><span class="mini-bar-val num">80</span><div class="mini-bar" style="height:80%; background:var(--site-sin)"></div></div>
+        </div>
+      </div>
+
+      <div class="kpi-panel">
+        <h3>Taux de sauvegarde</h3>
+        <p class="kpi-desc">Part des sauvegardes réalisées avec succès</p>
+        <div class="mini-bars">
+          <div class="mini-bar-col"><span class="mini-bar-tip">95,62 %</span><span class="mini-bar-val num">100</span><div class="mini-bar" style="height:100%; background:var(--site-vai)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">95,00 %</span><span class="mini-bar-val num">61</span><div class="mini-bar" style="height:61%; background:var(--site-unt)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">95,00 %</span><span class="mini-bar-val num">61</span><div class="mini-bar" style="height:61%; background:var(--site-moe)"></div></div>
+          <div class="mini-bar-col"><span class="mini-bar-tip">94,04 %</span><span class="mini-bar-val num">0</span><div class="mini-bar" style="height:2%; background:var(--site-sin)"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Tableau de données complet</h2>
+      <span class="hint">Moyennes brutes par site sur l'ensemble de l'échantillon</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Site</th>
+            <th>Enregistrements</th>
+            <th>Disponibilité %</th>
+            <th>MTBF (h)</th>
+            <th>MTTR (h)</th>
+            <th>Non planifié %</th>
+            <th>Sauvegarde %</th>
+            <th>Score composite</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="best-row">
+            <td><span class="dot-sm" style="background:var(--site-vai)"></span>Vaihingen</td>
+            <td class="num">30</td><td class="num">98.78</td><td class="num">505.6</td><td class="num">2.82</td><td class="num">46.7</td><td class="num">95.62</td>
+            <td class="num composite">68.3</td>
+          </tr>
+          <tr>
+            <td><span class="dot-sm" style="background:var(--site-unt)"></span>Untertürkheim</td>
+            <td class="num">25</td><td class="num">98.50</td><td class="num">525.6</td><td class="num">2.39</td><td class="num">56.0</td><td class="num">95.00</td>
+            <td class="num">64.7</td>
+          </tr>
+          <tr>
+            <td><span class="dot-sm" style="background:var(--site-moe)"></span>Möhringen</td>
+            <td class="num">21</td><td class="num">98.27</td><td class="num">453.5</td><td class="num">2.60</td><td class="num">38.1</td><td class="num">95.00</td>
+            <td class="num">32.5</td>
+          </tr>
+          <tr>
+            <td><span class="dot-sm" style="background:var(--site-sin)"></span>Sindelfingen</td>
+            <td class="num">24</td><td class="num">98.37</td><td class="num">465.5</td><td class="num">2.88</td><td class="num">41.7</td><td class="num">94.04</td>
+            <td class="num">22.3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Analyse et recommandation</h2></div>
+    <div class="insight-panel">
+      <div class="insight-grid">
+        <ol class="insight-list">
+          <li><span class="n">1</span><span><b>Les KPI bruts, à eux seuls, distinguent à peine les sites</b> — la disponibilité varie de seulement 98,27 à 98,78 % et le MTBF de 453 à 526 h. À l'œil nu, on croirait à une quasi-égalité.</span></li>
+          <li><span class="n">2</span><span><b>En normalisant et en pondérant les 5 KPI ensemble, l'image devient plus claire :</b> Vaihingen arrive en tête (68,3) grâce à sa disponibilité et à la solidité de ses sauvegardes, suivi de près par Untertürkheim (64,7) qui affiche la meilleure combinaison « pannes rares / récupération rapide ».</span></li>
+          <li><span class="n">3</span><span><b>Möhringen et Sindelfingen accusent un retard important</b> (32,5 et 22,3) — non pas à cause d'un KPI catastrophique isolé, mais parce qu'ils sont en retrait sur plusieurs KPI à la fois.</span></li>
+          <li><span class="n">4</span><span><b>Le couple MTBF + MTTR est le plus révélateur :</b> la disponibilité seule peut masquer un site qui tombe souvent en panne mais récupère vite, ou un site qui tombe rarement en panne mais récupère lentement (exactement le profil de Vaihingen).</span></li>
+          <li><span class="n">5</span><span><b>Recommandation :</b> suivre le score composite chaque mois par site, et considérer un taux de sauvegarde inférieur à 95 % comme un signal d'alerte précoce — il se dégrade avant la disponibilité.</span></li>
+        </ol>
+
+        <div class="method-box">
+          <h4>Méthode de calcul du score composite</h4>
+          <div>Chaque KPI est normalisé (min–max) sur une échelle de 0 à 100 entre les 4 sites, puis combiné selon une pondération :</div>
+          <div class="weights">
+            <div class="weight-row"><span class="wname">Disponibilité</span><div class="weight-track"><div class="weight-fill" style="width:30%"></div></div><span class="wval">30%</span></div>
+            <div class="weight-row"><span class="wname">MTBF</span><div class="weight-track"><div class="weight-fill" style="width:25%"></div></div><span class="wval">25%</span></div>
+            <div class="weight-row"><span class="wname">MTTR</span><div class="weight-track"><div class="weight-fill" style="width:20%"></div></div><span class="wval">20%</span></div>
+            <div class="weight-row"><span class="wname">Discipline planifiée</span><div class="weight-track"><div class="weight-fill" style="width:15%"></div></div><span class="wval">15%</span></div>
+            <div class="weight-row"><span class="wname">Taux de sauvegarde</span><div class="weight-track"><div class="weight-fill" style="width:10%"></div></div><span class="wval">10%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Jeu de données synthétique &middot; 100 enregistrements &middot; 4 sites &middot; généré à des fins pédagogiques</span>
+    <span>Ne représente pas des données opérationnelles réelles de Daimler</span>
+  </footer>
+
+</div>

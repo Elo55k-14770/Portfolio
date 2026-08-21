@@ -140,6 +140,7 @@
   .project-card::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
   .project-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
   .project-title { font-size: 16.5px; font-weight: 700; color: var(--ink); }
+  .project-links { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
   .project-link { font-size: 12px; font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: nowrap; }
   .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .stack-tag {
@@ -232,7 +233,10 @@
       <div class="project-card">
         <div class="project-head">
           <span class="project-title">Analyse Santé Publique — Cameroun</span>
-          <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet%20_R-AnalyseSanteCameroun" target="_blank" rel="noopener">voir le code →</a>
+          <div class="project-links">
+            <a class="project-link" href="https://elo55k.shinyapps.io/sante-cameroun/" target="_blank" rel="noopener">voir le dashboard →</a>
+            <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet%20_R-AnalyseSanteCameroun" target="_blank" rel="noopener">voir le code →</a>
+          </div>
         </div>
         <div class="stack-tags"><span class="stack-tag">R</span><span class="stack-tag">tidyverse</span><span class="stack-tag">Shiny</span></div>
         <p class="project-desc">Nettoyage et fiabilisation de 10 300 consultations médicales issues de centres de santé camerounais (dates, régions, âges, coûts), puis exploration via un tableau de bord Shiny interactif.</p>
@@ -242,7 +246,10 @@
       <div class="project-card">
         <div class="project-head">
           <span class="project-title">AfriMarket — Analyse E-commerce</span>
-          <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet_Python-AfriMarket" target="_blank" rel="noopener">voir le code →</a>
+          <div class="project-links">
+            <a class="project-link" href="https://projets-claude-de-data-analyste-9mez25ywtsew3qcgxmwulx.streamlit.app/" target="_blank" rel="noopener">voir le dashboard →</a>
+            <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet_Python-AfriMarket" target="_blank" rel="noopener">voir le code →</a>
+          </div>
         </div>
         <div class="stack-tags"><span class="stack-tag">Python</span><span class="stack-tag">Pandas</span><span class="stack-tag">Streamlit</span></div>
         <p class="project-desc">Pipeline de nettoyage et analyse exploratoire d'une plateforme e-commerce africaine : indicateurs de performance, visualisations, et dashboard Streamlit livré avec un résumé exécutif.</p>
@@ -257,6 +264,16 @@
         <div class="stack-tags"><span class="stack-tag">SQL</span><span class="stack-tag">SQLite</span></div>
         <p class="project-desc">15 requêtes SQL sur 1 500 employés, 18 000 évaluations de performance et 200 départs, pour analyser le turnover, la performance et la composition des équipes RH.</p>
         <div class="project-metric">1 500 employés &middot; 18 000 évaluations</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">Étude comparative — Fiabilité des Data Centers (Stuttgart)</span>
+          <a class="project-link" href="etude-datacenters-stuttgart.html">voir l'étude →</a>
+        </div>
+        <div class="stack-tags"><span class="stack-tag">Analyse</span><span class="stack-tag">Data Viz</span><span class="stack-tag">KPI</span></div>
+        <p class="project-desc">Comparaison de 4 sites fictifs de data centers dans la région de Stuttgart selon 5 indicateurs de fiabilité (disponibilité, MTBF, MTTR, maintenance, sauvegardes), avec score composite pondéré.</p>
+        <div class="project-metric">100 enregistrements &middot; 4 sites comparés</div>
       </div>
 
     </div>

@@ -1,0 +1,284 @@
+<title>Koudou G. Euloge</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-line: #dbe2ea;
+    --ink: #10233f;
+    --ink-2: #3f5674;
+    --muted: #74839a;
+    --line-strong: #1c3a63;
+    --accent: #b8551f;
+    --accent-soft: #f4e2d3;
+    --grid: rgba(28,58,99,0.07);
+    --shadow: 0 1px 2px rgba(16,35,63,0.06), 0 10px 28px -16px rgba(16,35,63,0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0c1d34;
+      --surface: #10294a;
+      --surface-line: #1d3f6b;
+      --ink: #eaf3fb;
+      --ink-2: #a9c3dc;
+      --muted: #7592ae;
+      --line-strong: #bfe3f7;
+      --accent: #e79452;
+      --accent-soft: #3a2814;
+      --grid: rgba(191,227,247,0.08);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -16px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0c1d34;
+    --surface: #10294a;
+    --surface-line: #1d3f6b;
+    --ink: #eaf3fb;
+    --ink-2: #a9c3dc;
+    --muted: #7592ae;
+    --line-strong: #bfe3f7;
+    --accent: #e79452;
+    --accent-soft: #3a2814;
+    --grid: rgba(191,227,247,0.08);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -16px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 28px),
+      var(--bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .sheet { max-width: 980px; margin: 0 auto; padding: 40px 24px 64px; }
+
+  /* ---------- Title block (header) ---------- */
+  .titleblock {
+    border: 1.5px solid var(--line-strong);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr 220px;
+  }
+  .tb-main { padding: 28px 26px; border-right: 1.5px solid var(--line-strong); }
+  .tb-eyebrow {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  }
+  .tb-name {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: 0.01em;
+    margin: 8px 0 6px; text-wrap: balance; color: var(--ink);
+  }
+  .tb-role { font-size: 15px; color: var(--ink-2); margin: 0; }
+  .tb-fields { display: flex; flex-direction: column; }
+  .tb-field { flex: 1; padding: 10px 16px; border-bottom: 1px solid var(--surface-line); display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+  .tb-field:last-child { border-bottom: none; }
+  .tb-field .k { font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-size: 9.5px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+  .tb-field .v { font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-size: 12.5px; color: var(--ink); }
+
+  /* ---------- Section headers (drawing callout style) ---------- */
+  section { margin-top: 46px; }
+  .callout { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .callout .tag {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 12px; font-weight: 700; color: var(--accent); border: 1.5px solid var(--accent);
+    width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex: none; background: var(--accent-soft);
+  }
+  .callout h2 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    margin: 0; color: var(--ink);
+  }
+  .callout .rule { flex: 1; height: 1px; background: var(--line-strong); position: relative; }
+  .callout .rule::after {
+    content: ""; position: absolute; right: 0; top: 50%; width: 6px; height: 6px;
+    background: var(--line-strong); border-radius: 50%; transform: translateY(-50%);
+  }
+
+  /* ---------- About ---------- */
+  .about-panel { background: var(--surface); border: 1px solid var(--surface-line); box-shadow: var(--shadow); padding: 26px 28px; }
+  .about-panel p { font-size: 15.5px; color: var(--ink-2); max-width: 68ch; margin: 0 0 12px; }
+  .about-panel p:last-child { margin-bottom: 0; }
+  .about-panel b { color: var(--ink); }
+
+  /* ---------- Skills legend ---------- */
+  .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .legend-box { background: var(--surface); border: 1px solid var(--surface-line); box-shadow: var(--shadow); padding: 20px 22px; }
+  .legend-box h3 {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--surface-line); font-size: 13.5px; color: var(--ink); }
+  .legend-item:last-child { border-bottom: none; }
+  .legend-item .swatch { width: 9px; height: 9px; flex: none; background: var(--accent); }
+  .legend-box.electro .swatch { background: var(--line-strong); }
+
+  /* ---------- Projects ---------- */
+  .project-list { display: flex; flex-direction: column; gap: 18px; }
+  .project-card {
+    position: relative; background: var(--surface); border: 1px solid var(--surface-line);
+    box-shadow: var(--shadow); padding: 22px 24px;
+  }
+  .project-card::before, .project-card::after,
+  .project-card .br-tl, .project-card .br-br {
+    content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  }
+  .project-card::before { top: -1px; left: -1px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+  .project-card::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+  .project-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .project-title { font-size: 16.5px; font-weight: 700; color: var(--ink); }
+  .project-link { font-size: 12px; font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; white-space: nowrap; }
+  .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .stack-tag {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 10.5px; letter-spacing: 0.03em; color: var(--ink-2); border: 1px solid var(--surface-line);
+    padding: 3px 8px; background: var(--bg);
+  }
+  .project-desc { font-size: 14px; color: var(--ink-2); margin: 0 0 10px; max-width: 66ch; }
+  .project-metric {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 12px; color: var(--accent); display: flex; align-items: center; gap: 6px;
+  }
+  .project-metric::before { content: "→"; }
+
+  /* ---------- Contact ---------- */
+  .contact-panel { background: var(--surface); border: 1px solid var(--surface-line); box-shadow: var(--shadow); padding: 24px 26px; display: flex; gap: 34px; flex-wrap: wrap; }
+  .terminal { display: flex; align-items: center; gap: 12px; }
+  .terminal .pin { width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); flex: none; }
+  .terminal .lbl { font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; }
+  .terminal .val { font-size: 14.5px; color: var(--ink); font-weight: 600; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 50px; padding-top: 16px; border-top: 1.5px solid var(--line-strong);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .titleblock { grid-template-columns: 1fr; }
+    .tb-main { border-right: none; border-bottom: 1.5px solid var(--line-strong); }
+    .tb-fields { flex-direction: row; }
+    .tb-field { border-bottom: none; border-right: 1px solid var(--surface-line); }
+    .tb-field:last-child { border-right: none; }
+    .legend-grid { grid-template-columns: 1fr; }
+    .project-head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<div class="sheet">
+
+  <div class="titleblock">
+    <div class="tb-main">
+      <div class="tb-eyebrow">Dossier technique &middot; profil professionnel</div>
+      <div class="tb-name">KOUDOU, G. EULOGE</div>
+      <p class="tb-role">Électrotechnicien &middot; Passionné de Data</p>
+    </div>
+    <div class="tb-fields">
+      <div class="tb-field"><span class="k">Dossier</span><span class="v">PORTFOLIO&ndash;2026</span></div>
+      <div class="tb-field"><span class="k">Date</span><span class="v">18/08/2026</span></div>
+      <div class="tb-field"><span class="k">Rév.</span><span class="v">1.0</span></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="callout"><span class="tag mono">01</span><h2>À propos</h2><span class="rule"></span></div>
+    <div class="about-panel">
+      <p>Formé à l'électrotechnique, j'ai appris à lire des systèmes complexes : circuits, signaux, contraintes physiques, tolérances. Aujourd'hui, j'applique la même rigueur à un autre type de signal — <b>la donnée</b>.</p>
+      <p>Je conçois des pipelines de nettoyage, j'interroge des bases SQL, et je construis des tableaux de bord qui transforment des fichiers bruts en décisions lisibles. Trois projets réels ci-dessous — santé publique, e-commerce, ressources humaines — illustrent cette double casquette : la précision du terrain, appliquée à l'analyse.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout"><span class="tag mono">02</span><h2>Compétences</h2><span class="rule"></span></div>
+    <div class="legend-grid">
+      <div class="legend-box electro">
+        <h3>Électrotechnique</h3>
+        <div class="legend-item"><span class="swatch"></span>Lecture de schémas électriques</div>
+        <div class="legend-item"><span class="swatch"></span>Câblage &amp; installations industrielles</div>
+        <div class="legend-item"><span class="swatch"></span>Diagnostic de pannes</div>
+        <div class="legend-item"><span class="swatch"></span>Automatismes &amp; régulation</div>
+        <div class="legend-item"><span class="swatch"></span>Normes de sécurité électrique</div>
+      </div>
+      <div class="legend-box">
+        <h3>Data</h3>
+        <div class="legend-item"><span class="swatch"></span>SQL &amp; bases relationnelles (SQLite)</div>
+        <div class="legend-item"><span class="swatch"></span>Python — Pandas, NumPy, Matplotlib, Seaborn</div>
+        <div class="legend-item"><span class="swatch"></span>R — tidyverse, Shiny</div>
+        <div class="legend-item"><span class="swatch"></span>Dashboards interactifs (Streamlit, Shiny)</div>
+        <div class="legend-item"><span class="swatch"></span>Nettoyage, fiabilisation &amp; analyse business</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout"><span class="tag mono">03</span><h2>Projets</h2><span class="rule"></span></div>
+    <div class="project-list">
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">Analyse Santé Publique — Cameroun</span>
+          <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet%20_R-AnalyseSanteCameroun" target="_blank" rel="noopener">voir le code →</a>
+        </div>
+        <div class="stack-tags"><span class="stack-tag">R</span><span class="stack-tag">tidyverse</span><span class="stack-tag">Shiny</span></div>
+        <p class="project-desc">Nettoyage et fiabilisation de 10 300 consultations médicales issues de centres de santé camerounais (dates, régions, âges, coûts), puis exploration via un tableau de bord Shiny interactif.</p>
+        <div class="project-metric">10 011 lignes fiabilisées &middot; 0 région manquante</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">AfriMarket — Analyse E-commerce</span>
+          <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet_Python-AfriMarket" target="_blank" rel="noopener">voir le code →</a>
+        </div>
+        <div class="stack-tags"><span class="stack-tag">Python</span><span class="stack-tag">Pandas</span><span class="stack-tag">Streamlit</span></div>
+        <p class="project-desc">Pipeline de nettoyage et analyse exploratoire d'une plateforme e-commerce africaine : indicateurs de performance, visualisations, et dashboard Streamlit livré avec un résumé exécutif.</p>
+        <div class="project-metric">Dashboard interactif + résumé exécutif</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">DataLendo — Analyse RH</span>
+          <a class="project-link" href="https://github.com/Elo55k-14770/Projets-Claude-de-Data-Analyste/tree/main/Projets-CLAUDE/Projet_SQL-DataLendo" target="_blank" rel="noopener">voir le code →</a>
+        </div>
+        <div class="stack-tags"><span class="stack-tag">SQL</span><span class="stack-tag">SQLite</span></div>
+        <p class="project-desc">15 requêtes SQL sur 1 500 employés, 18 000 évaluations de performance et 200 départs, pour analyser le turnover, la performance et la composition des équipes RH.</p>
+        <div class="project-metric">1 500 employés &middot; 18 000 évaluations</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="callout"><span class="tag mono">04</span><h2>Contact</h2><span class="rule"></span></div>
+    <div class="contact-panel">
+      <div class="terminal">
+        <span class="pin"></span>
+        <div><span class="lbl">Email</span><a class="val" href="mailto:kouloge1@gmail.com">kouloge1@gmail.com</a></div>
+      </div>
+      <div class="terminal">
+        <span class="pin"></span>
+        <div><span class="lbl">GitHub</span><a class="val" href="https://github.com/Elo55k-14770" target="_blank" rel="noopener">Elo55k-14770</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Portfolio personnel &middot; Rév. 1.0</span>
+    <span>Dernière mise à jour : 18/08/2026</span>
+  </footer>
+
+</div>

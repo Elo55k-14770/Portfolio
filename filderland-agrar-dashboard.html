@@ -1,0 +1,524 @@
+<meta charset="UTF-8">
+<title>Filderland Agrar — Tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F5F3E9;
+    --surface: #FFFFFE;
+    --surface-2: #FBF9EF;
+    --border: #E2DFCB;
+    --border-strong: #CDC9AE;
+    --text-primary: #201F17;
+    --text-secondary: #5B5A47;
+    --text-muted: #8B8973;
+    --accent: #3B5D42;
+    --accent-strong: #2A4531;
+    --accent-soft: #E5EBE0;
+    --accent-2: #B5622E;
+    --accent-2-soft: #F3E3D6;
+    --neg: #B5622E;
+    --pos: #2A6B8A;
+    --shadow: 0 1px 2px rgba(32,31,23,0.04), 0 8px 24px -12px rgba(32,31,23,0.15);
+
+    --c-blue: #2a78d6;
+    --c-orange: #eb6834;
+    --c-aqua: #1baf7a;
+    --c-yellow: #eda100;
+    --c-magenta: #e87ba4;
+    --c-green: #008300;
+    --c-violet: #4a3aa7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #14160F;
+      --surface: #1C1F16;
+      --surface-2: #21241A;
+      --border: #33362A;
+      --border-strong: #454935;
+      --text-primary: #F1F0E4;
+      --text-secondary: #BCBBA8;
+      --text-muted: #85836D;
+      --accent: #85B48D;
+      --accent-strong: #A3CBAA;
+      --accent-soft: #26362A;
+      --accent-2: #E0925F;
+      --accent-2-soft: #3A2C20;
+      --neg: #E0925F;
+      --pos: #6FB3D6;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+
+      --c-blue: #3987e5;
+      --c-orange: #d95926;
+      --c-aqua: #199e70;
+      --c-yellow: #c98500;
+      --c-magenta: #d55181;
+      --c-green: #4CAF50;
+      --c-violet: #9085e9;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14160F;
+    --surface: #1C1F16;
+    --surface-2: #21241A;
+    --border: #33362A;
+    --border-strong: #454935;
+    --text-primary: #F1F0E4;
+    --text-secondary: #BCBBA8;
+    --text-muted: #85836D;
+    --accent: #85B48D;
+    --accent-strong: #A3CBAA;
+    --accent-soft: #26362A;
+    --accent-2: #E0925F;
+    --accent-2-soft: #3A2C20;
+    --neg: #E0925F;
+    --pos: #6FB3D6;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+
+    --c-blue: #3987e5;
+    --c-orange: #d95926;
+    --c-aqua: #199e70;
+    --c-yellow: #c98500;
+    --c-magenta: #d55181;
+    --c-green: #4CAF50;
+    --c-violet: #9085e9;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: "Libre Franklin", -apple-system, "Segoe UI", sans-serif;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  header.top {
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+    padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin: 0 0 8px;
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: clamp(28px, 3.6vw, 40px);
+    margin: 0 0 6px; letter-spacing: -0.01em; text-wrap: balance; color: var(--text-primary);
+  }
+  .subtitle { color: var(--text-secondary); font-size: 15px; margin: 0; max-width: 60ch; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+    background: var(--accent-2-soft); color: var(--accent-2); border-radius: 100px;
+    padding: 6px 12px; white-space: nowrap; border: 1px solid transparent;
+  }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; box-shadow: var(--shadow);
+  }
+  .kpi .label { font-size: 12.5px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .kpi .num { font-family: "Fraunces", Georgia, serif; font-size: 34px; font-weight: 600; color: var(--accent-strong); line-height: 1; margin-bottom: 8px; }
+  .kpi .num.warn { color: var(--accent-2); }
+  .kpi .desc { font-size: 13.5px; color: var(--text-secondary); }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column;
+  }
+  .card.wide { grid-column: 1 / -1; }
+  .card-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+  .card-num {
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 13px;
+    color: var(--text-muted);
+  }
+  .card h2 {
+    font-family: "Fraunces", Georgia, serif; font-size: 19px; font-weight: 600; margin: 0;
+    color: var(--text-primary);
+  }
+  .card .insight { font-size: 13.5px; color: var(--text-secondary); margin: 6px 0 14px; max-width: 68ch; }
+  .chart-row { display: flex; gap: 18px; flex-wrap: wrap; align-items: stretch; }
+  .chart-col { flex: 1 1 260px; min-width: 0; }
+  .chart-col h3 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);
+    margin: 0 0 8px; font-weight: 600;
+  }
+  svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .axis-label { fill: var(--text-muted); font-size: 10.5px; font-family: "Libre Franklin", sans-serif; }
+  .grid-line { stroke: var(--border); stroke-width: 1; }
+  .data-label { fill: var(--text-primary); font-size: 10.5px; font-weight: 600; font-family: "Libre Franklin", sans-serif; }
+  .cat-label { fill: var(--text-secondary); font-size: 11px; font-family: "Libre Franklin", sans-serif; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 10px; font-size: 12px; color: var(--text-secondary); }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+  .mark { transition: opacity 0.12s ease, stroke-width 0.12s ease; cursor: default; }
+  .mark:hover { opacity: 0.78; }
+  .line-path { fill: none; stroke: var(--pos); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .point { fill: var(--surface); stroke: var(--pos); stroke-width: 2.5; }
+
+  .spark-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 16px; margin-bottom: 14px; }
+  .spark { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px 8px; background: var(--surface-2); }
+  .spark-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .spark-name { font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
+  .spark-val { font-size: 11.5px; color: var(--text-muted); }
+  .spark-line { stroke: var(--accent); stroke-width: 2; fill: none; }
+  .spark-dot { fill: var(--accent); }
+
+  .anomaly-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .anomaly-list li {
+    display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-secondary);
+    padding: 8px 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border);
+  }
+  .anomaly-tag {
+    font-weight: 700; font-size: 12px; border-radius: 6px; padding: 2px 7px; flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .anomaly-tag.neg { color: var(--neg); background: var(--accent-2-soft); }
+  .anomaly-tag.pos { color: var(--pos); background: var(--accent-soft); }
+
+  .table-view { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+  .table-view caption { text-align: left; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .table-view th, .table-view td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+  .table-view th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.03em; }
+  .table-view td.num, .table-view th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  details.table-toggle { margin-top: 10px; }
+  details.table-toggle summary {
+    cursor: pointer; font-size: 12px; color: var(--accent); font-weight: 600; list-style: none;
+  }
+  details.table-toggle summary::-webkit-details-marker { display: none; }
+  details.table-toggle summary::before { content: "▸ "; }
+  details.table-toggle[open] summary::before { content: "▾ "; }
+
+  footer.notes {
+    margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  footer.notes p { margin: 0; max-width: 70ch; }
+
+  @media (max-width: 860px) {
+    .kpis { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+    .spark-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <p class="eyebrow">Filderland Agrar GmbH · Région de Stuttgart</p>
+      <h1>Tableau de bord commercial 2021–2026</h1>
+      <p class="subtitle">Synthèse pour l'équipe dirigeante — questions métier 1 à 6, base de données nettoyée (493 lignes de vente).</p>
+    </div>
+    <span class="badge">● Données fictives — usage pédagogique</span>
+  </header>
+
+  <section class="kpis">
+    <div class="kpi">
+      <div class="label">1 · Performance globale</div>
+      <div class="num">+4,1 %</div>
+      <div class="desc">Croissance annuelle moyenne du CA (2021→2026) — creux à -13,9 % en 2025, rebond à +26,1 % en 2026.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">2 · Portefeuille produits</div>
+      <div class="num">58 % / 9,6 %</div>
+      <div class="desc">Part du chiffre d'affaires générée par Wein + Spargel, pour seulement 9,6 % du volume vendu.</div>
+    </div>
+    <div class="kpi">
+      <div class="label">4 · Base client</div>
+      <div class="num warn">12 clients</div>
+      <div class="desc">Portefeuille restreint mais équilibré : chaque client pèse entre 5,6 % et 9,7 % du CA — aucune dépendance excessive.</div>
+    </div>
+  </section>
+
+  <section class="grid">
+
+    <!-- 1. PERFORMANCE GLOBALE -->
+    <article class="card">
+      <div class="card-head"><span class="card-num">01</span><h2>Performance commerciale globale</h2></div>
+      <p class="insight">Le CA progresse en moyenne de +4,1 % par an, mais la trajectoire est irrégulière : recul net en 2025 suivi d'un fort rebond en 2026. Le taux d'annulation reste faible et stable (1,8 % sur toute la période).</p>
+      <svg viewBox="0 0 460 215" role="img" aria-label="Chiffre d'affaires livré par année, de 2021 à 2026">
+        <line class="grid-line" x1="50" y1="10" x2="440" y2="10"></line>
+        <line class="grid-line" x1="50" y1="55" x2="440" y2="55"></line>
+        <line class="grid-line" x1="50" y1="100" x2="440" y2="100"></line>
+        <line class="grid-line" x1="50" y1="145" x2="440" y2="145"></line>
+        <line class="grid-line" x1="50" y1="190" x2="440" y2="190"></line>
+        <text class="axis-label" x="44" y="13" text-anchor="end">2 600</text>
+        <text class="axis-label" x="44" y="58" text-anchor="end">2 400</text>
+        <text class="axis-label" x="44" y="103" text-anchor="end">2 200</text>
+        <text class="axis-label" x="44" y="148" text-anchor="end">2 000</text>
+        <text class="axis-label" x="44" y="193" text-anchor="end">1 800</text>
+        <path class="line-path" d="M50,133.8 L128,120.5 L206,82.4 L284,75.1 L362,147.5 L440,30.9"></path>
+        <circle class="point mark" cx="50" cy="133.8" r="4.5"><title>2021 : 2 050 €</title></circle>
+        <circle class="point mark" cx="128" cy="120.5" r="4.5"><title>2022 : 2 109 €</title></circle>
+        <circle class="point mark" cx="206" cy="82.4" r="4.5"><title>2023 : 2 278 €</title></circle>
+        <circle class="point mark" cx="284" cy="75.1" r="4.5"><title>2024 : 2 311 €</title></circle>
+        <circle class="point mark" cx="362" cy="147.5" r="5.5" stroke="var(--neg)"><title>2025 : 1 989 € (-13,9 % vs 2024)</title></circle>
+        <circle class="point mark" cx="440" cy="30.9" r="5.5" stroke="var(--pos)"><title>2026 : 2 507 € (+26,1 % vs 2025)</title></circle>
+        <text class="data-label" x="362" y="163" text-anchor="middle" fill="var(--neg)">-13,9 %</text>
+        <text class="data-label" x="440" y="20" text-anchor="middle" fill="var(--pos)">2 507 €</text>
+        <text class="cat-label" x="50" y="207" text-anchor="middle">2021</text>
+        <text class="cat-label" x="128" y="207" text-anchor="middle">2022</text>
+        <text class="cat-label" x="206" y="207" text-anchor="middle">2023</text>
+        <text class="cat-label" x="284" y="207" text-anchor="middle">2024</text>
+        <text class="cat-label" x="362" y="207" text-anchor="middle">2025</text>
+        <text class="cat-label" x="440" y="207" text-anchor="middle">2026</text>
+      </svg>
+    </article>
+
+    <!-- 2. PORTEFEUILLE PRODUITS -->
+    <article class="card">
+      <div class="card-head"><span class="card-num">02</span><h2>Portefeuille produits</h2></div>
+      <p class="insight">Chaque bulle = un produit ; sa taille encode le prix moyen au kg/t. Wein et Spargel combinent faible volume et forte valorisation ; Weizen et Kartoffeln, l'inverse.</p>
+      <svg viewBox="0 0 460 215" role="img" aria-label="Volume vendu et chiffre d'affaires par produit, taille des bulles proportionnelle au prix moyen">
+        <line class="grid-line" x1="60" y1="20" x2="60" y2="195"></line>
+        <line class="grid-line" x1="60" y1="195" x2="440" y2="195"></line>
+        <text class="axis-label" x="250" y="212" text-anchor="middle">Volume vendu (kg/t) →</text>
+        <text class="axis-label" x="14" y="30" text-anchor="start">CA ↑</text>
+        <circle class="mark" cx="126.1" cy="28.5" r="24.6" fill="var(--c-blue)" fill-opacity="0.8"><title>Wein — 956 kg/t, 4 096 € de CA, 4,28 €/kg en moyenne</title></circle>
+        <circle class="mark" cx="95.0" cy="50.0" r="30.0" fill="var(--c-orange)" fill-opacity="0.8"><title>Spargel — 507 kg/t, 3 585 € de CA, 7,07 €/kg en moyenne</title></circle>
+        <circle class="mark" cx="281.0" cy="112.0" r="13.3" fill="var(--c-aqua)" fill-opacity="0.8"><title>Äpfel — 3 198 kg/t, 2 102 € de CA, 0,66 €/kg en moyenne</title></circle>
+        <circle class="mark" cx="323.4" cy="131.8" r="11.9" fill="var(--c-yellow)" fill-opacity="0.8"><title>Kartoffeln — 3 813 kg/t, 1 628 € de CA, 0,43 €/kg en moyenne</title></circle>
+        <circle class="mark" cx="416.7" cy="151.3" r="10.3" fill="var(--c-magenta)" fill-opacity="0.8"><title>Weizen — 5 161 kg/t, 1 165 € de CA, 0,23 €/kg en moyenne</title></circle>
+        <circle class="mark" cx="170.0" cy="172.0" r="11.9" fill="var(--c-violet)" fill-opacity="0.8"><title>Filderkraut — 1 592 kg/t, 668 € de CA, 0,42 €/kg en moyenne</title></circle>
+        <text class="data-label" x="126.1" y="4" text-anchor="middle">Wein</text>
+        <text class="data-label" x="95.0" y="98" text-anchor="middle">Spargel</text>
+        <text class="cat-label" x="281.0" y="100" text-anchor="middle">Äpfel</text>
+        <text class="cat-label" x="323.4" y="150" text-anchor="middle">Kartoffeln</text>
+        <text class="cat-label" x="416.7" y="169" text-anchor="middle">Weizen</text>
+        <text class="cat-label" x="170.0" y="190" text-anchor="middle">Filderkraut</text>
+      </svg>
+    </article>
+
+    <!-- 3. DISTRICTS -->
+    <article class="card">
+      <div class="card-head"><span class="card-num">03</span><h2>Performance par district</h2></div>
+      <p class="insight">Écart de valorisation (€/kg réalisé) vs la moyenne régionale (0,87 €/kg). Böblingen tire le meilleur parti de son volume ; Göppingen, à volume comparable, capture moins de valeur — un potentiel de montée en gamme plutôt qu'un déficit de débouchés.</p>
+      <svg viewBox="0 0 460 228" role="img" aria-label="Écart de valorisation par district par rapport à la moyenne régionale">
+        <line class="grid-line" x1="230" y1="6" x2="230" y2="200" stroke="var(--border-strong)"></line>
+        <text class="axis-label" x="230" y="214" text-anchor="middle">0 % · moyenne régionale 0,87 €/kg réalisé</text>
+
+        <text class="cat-label" x="4" y="26" text-anchor="start">Göppingen</text>
+        <rect class="mark" x="104" y="12" width="126" height="20" rx="3" fill="var(--neg)"><title>Göppingen : -12,6 % vs moyenne (0,76 €/kg réalisé, 13,6 % du CA)</title></rect>
+        <text class="data-label" x="167" y="26" text-anchor="middle" fill="#fff">-12,6 %</text>
+
+        <text class="cat-label" x="4" y="58" text-anchor="start">Stuttgart</text>
+        <rect class="mark" x="161" y="44" width="69" height="20" rx="3" fill="var(--neg)"><title>Stuttgart : -6,9 % vs moyenne (0,81 €/kg réalisé, 20,5 % du CA)</title></rect>
+        <text class="data-label" x="195.5" y="58" text-anchor="middle" fill="#fff">-6,9 %</text>
+
+        <text class="cat-label" x="4" y="90" text-anchor="start">Ludwigsburg</text>
+        <rect class="mark" x="219" y="76" width="11" height="20" rx="2" fill="var(--neg)"><title>Ludwigsburg : -1,1 % vs moyenne (0,86 €/kg réalisé, 13,0 % du CA)</title></rect>
+        <text class="data-label" x="213" y="90" text-anchor="end" fill="var(--neg)">-1,1 %</text>
+
+        <text class="cat-label" x="4" y="122" text-anchor="start">Esslingen</text>
+        <rect class="mark" x="229" y="108" width="2" height="20" rx="1" fill="var(--text-muted)"><title>Esslingen : à la moyenne (0,87 €/kg réalisé, 14,9 % du CA)</title></rect>
+        <text class="data-label" x="238" y="122" text-anchor="start" fill="var(--text-muted)">0 %</text>
+
+        <text class="cat-label" x="4" y="154" text-anchor="start">Rems-Murr-Kreis</text>
+        <rect class="mark" x="230" y="140" width="69" height="20" rx="3" fill="var(--pos)"><title>Rems-Murr-Kreis : +6,9 % vs moyenne (0,93 €/kg réalisé, 16,9 % du CA)</title></rect>
+        <text class="data-label" x="264.5" y="154" text-anchor="middle" fill="#fff">+6,9 %</text>
+
+        <text class="cat-label" x="4" y="186" text-anchor="start">Böblingen (le mieux valorisé)</text>
+        <rect class="mark" x="230" y="172" width="184" height="20" rx="3" fill="var(--pos)"><title>Böblingen : +18,4 % vs moyenne (1,03 €/kg réalisé, 16,8 % du CA)</title></rect>
+        <text class="data-label" x="322" y="186" text-anchor="middle" fill="#fff">+18,4 %</text>
+      </svg>
+    </article>
+
+    <!-- 4. CLIENTS & CANAUX -->
+    <article class="card wide">
+      <div class="card-head"><span class="card-num">04</span><h2>Clients &amp; canaux de vente</h2></div>
+      <p class="insight">Base client restreinte (12 comptes actifs après nettoyage des doublons d'espacement dans les noms) mais bien répartie — aucun client au-dessus de 10 % du CA. Grosshandel et Export sont les canaux les plus rentables ; Export a chuté en 2025 avant un net rebond en 2026.</p>
+      <div class="chart-row">
+        <div class="chart-col" style="flex-basis: 300px;">
+          <h3>Répartition du CA par client (12 comptes)</h3>
+          <svg viewBox="0 0 300 232" role="img" aria-label="Chiffre d'affaires par client, réparti de façon équilibrée entre 12 comptes">
+            <rect class="mark" x="150" y="4"  width="69.9" height="13" rx="2" fill="var(--accent)"><title>Genossenschaft Rems-Murr eG : 9,7 % du CA (1 268 €)</title></rect>
+            <rect class="mark" x="150" y="22" width="69.2" height="13" rx="2" fill="var(--accent)"><title>Bauernhof Maier : 9,6 % du CA (1 248 €)</title></rect>
+            <rect class="mark" x="150" y="40" width="67.7" height="13" rx="2" fill="var(--accent)"><title>Weingut Zimmermann : 9,4 % du CA (1 229 €)</title></rect>
+            <rect class="mark" x="150" y="58" width="66.1" height="13" rx="2" fill="var(--accent)"><title>Gaertnerei Krauss : 9,2 % du CA (1 206 €)</title></rect>
+            <rect class="mark" x="150" y="76" width="64.7" height="13" rx="2" fill="var(--accent)"><title>Erzeugergemeinschaft Neckar eG : 9,0 % du CA (1 178 €)</title></rect>
+            <rect class="mark" x="150" y="94" width="64.4" height="13" rx="2" fill="var(--accent)"><title>Landhandel Ludwigsburg : 9,0 % du CA (1 172 €)</title></rect>
+            <rect class="mark" x="150" y="112" width="63.4" height="13" rx="2" fill="var(--accent)"><title>Marktgenossenschaft Filder eG : 8,9 % du CA (1 155 €)</title></rect>
+            <rect class="mark" x="150" y="130" width="59.6" height="13" rx="2" fill="var(--accent)"><title>Hofladen Boeblingen : 8,3 % du CA (1 085 €)</title></rect>
+            <rect class="mark" x="150" y="148" width="59.3" height="13" rx="2" fill="var(--accent)"><title>Streuobst Esslingen GmbH : 8,3 % du CA (1 079 €)</title></rect>
+            <rect class="mark" x="150" y="166" width="49.0" height="13" rx="2" fill="var(--accent)"><title>Marktverein Goeppingen : 6,8 % du CA (892 €)</title></rect>
+            <rect class="mark" x="150" y="184" width="44.0" height="13" rx="2" fill="var(--accent)"><title>Weinbau Schuster : 6,1 % du CA (796 €)</title></rect>
+            <rect class="mark" x="150" y="202" width="40.0" height="13" rx="2" fill="var(--accent)"><title>Hof Vogel : 5,6 % du CA (725 €)</title></rect>
+            <text class="cat-label" x="146" y="14" text-anchor="end">Genossenschaft Rems-Murr</text>
+            <text class="cat-label" x="146" y="32" text-anchor="end">Bauernhof Maier</text>
+            <text class="cat-label" x="146" y="50" text-anchor="end">Weingut Zimmermann</text>
+            <text class="cat-label" x="146" y="68" text-anchor="end">Gaertnerei Krauss</text>
+            <text class="cat-label" x="146" y="86" text-anchor="end">Erzeugergem. Neckar</text>
+            <text class="cat-label" x="146" y="104" text-anchor="end">Landhandel Ludwigsburg</text>
+            <text class="cat-label" x="146" y="122" text-anchor="end">Marktgen. Filder</text>
+            <text class="cat-label" x="146" y="140" text-anchor="end">Hofladen Böblingen</text>
+            <text class="cat-label" x="146" y="158" text-anchor="end">Streuobst Esslingen</text>
+            <text class="cat-label" x="146" y="176" text-anchor="end">Marktverein Göppingen</text>
+            <text class="cat-label" x="146" y="194" text-anchor="end">Weinbau Schuster</text>
+            <text class="cat-label" x="146" y="212" text-anchor="end">Hof Vogel</text>
+          </svg>
+        </div>
+        <div class="chart-col" style="flex-basis: 200px;">
+          <h3>Part du CA par canal de vente</h3>
+          <svg viewBox="0 0 200 200" role="img" aria-label="Répartition du chiffre d'affaires par canal de vente">
+            <g transform="translate(100,95)">
+              <circle r="70" fill="none" stroke="var(--border)" stroke-width="26"></circle>
+              <circle class="mark" r="70" fill="none" stroke="var(--c-blue)" stroke-width="26"
+                stroke-dasharray="119.6 439.8" stroke-dashoffset="0" transform="rotate(-90)">
+                <title>Grosshandel : 27,2 % du CA (3 605 €)</title>
+              </circle>
+              <circle class="mark" r="70" fill="none" stroke="var(--c-orange)" stroke-width="26"
+                stroke-dasharray="117.0 439.8" stroke-dashoffset="-119.6" transform="rotate(-90)">
+                <title>Export : 26,6 % du CA (3 526 €) — +23,8 % depuis 2021</title>
+              </circle>
+              <circle class="mark" r="70" fill="none" stroke="var(--c-aqua)" stroke-width="26"
+                stroke-dasharray="111.7 439.8" stroke-dashoffset="-236.6" transform="rotate(-90)">
+                <title>Genossenschaft : 25,4 % du CA (3 360 €)</title>
+              </circle>
+              <circle class="mark" r="70" fill="none" stroke="var(--c-yellow)" stroke-width="26"
+                stroke-dasharray="91.5 439.8" stroke-dashoffset="-348.3" transform="rotate(-90)">
+                <title>Wochenmarkt : 20,8 % du CA (2 752 €)</title>
+              </circle>
+              <text text-anchor="middle" y="-4" font-family="Fraunces, serif" font-size="19" font-weight="600" fill="var(--text-primary)">13 244 €</text>
+              <text text-anchor="middle" y="16" font-size="11" fill="var(--text-muted)">CA total livré</text>
+            </g>
+          </svg>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-blue)"></span>Grosshandel 27,2 %</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-orange)"></span>Export 26,6 %</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-aqua)"></span>Genossenschaft 25,4 %</span>
+            <span class="legend-item"><span class="legend-dot" style="background:var(--c-yellow)"></span>Wochenmarkt 20,8 %</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5. PRIX & RENTABILITE -->
+    <article class="card wide">
+      <div class="card-head"><span class="card-num">05</span><h2>Prix &amp; rentabilité</h2></div>
+      <p class="insight">Évolution du prix moyen par produit (échelle propre à chaque produit, pour lire la forme de la tendance). Les prix sont globalement stables une fois les erreurs de saisie corrigées — mais des écarts significatifs subsistent entre districts pour un même produit.</p>
+      <div class="spark-grid">
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Wein</span><span class="spark-val">4,42 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,27.1 26,35 47,15.8 68,5 89,8.75 110,11.7"></polyline>
+            <circle class="spark-dot" cx="110" cy="11.7" r="2.5"><title>2026 : 4,42 €/kg</title></circle></svg>
+        </div>
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Spargel</span><span class="spark-val">7,42 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,35 26,32.2 47,5 68,28.1 89,29.4 110,9.6"></polyline>
+            <circle class="spark-dot" cx="110" cy="9.6" r="2.5"><title>2026 : 7,42 €/kg</title></circle></svg>
+        </div>
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Äpfel</span><span class="spark-val">0,64 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,29.5 26,35 47,5 68,26.8 89,18.6 110,35"></polyline>
+            <circle class="spark-dot" cx="110" cy="35" r="2.5"><title>2026 : 0,64 €/kg</title></circle></svg>
+        </div>
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Kartoffeln</span><span class="spark-val">0,43 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,35 26,29 47,11 68,17 89,5 110,29"></polyline>
+            <circle class="spark-dot" cx="110" cy="29" r="2.5"><title>2026 : 0,43 €/kg</title></circle></svg>
+        </div>
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Weizen</span><span class="spark-val">0,26 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,35 26,17 47,23 68,17 89,11 110,5"></polyline>
+            <circle class="spark-dot" cx="110" cy="5" r="2.5"><title>2026 : 0,26 €/kg</title></circle></svg>
+        </div>
+        <div class="spark">
+          <div class="spark-top"><span class="spark-name">Filderkraut</span><span class="spark-val">0,50 €/kg</span></div>
+          <svg viewBox="0 0 115 40"><polyline class="spark-line" points="5,5 26,35 47,5 68,20 89,8 110,5"></polyline>
+            <circle class="spark-dot" cx="110" cy="5" r="2.5"><title>2026 : 0,50 €/kg</title></circle></svg>
+        </div>
+      </div>
+      <h3 style="margin-bottom:8px;">Écarts de prix détectés (même produit, district différent)</h3>
+      <ul class="anomaly-list">
+        <li><span class="anomaly-tag neg">-19,7 %</span> Wein à Göppingen (3,43 €/kg vs 4,28 €/kg en moyenne, 11 ventes)</li>
+        <li><span class="anomaly-tag pos">+14,9 %</span> Wein à Böblingen (4,91 €/kg vs 4,28 €/kg en moyenne, 10 ventes)</li>
+        <li><span class="anomaly-tag pos">+17,4 %</span> Äpfel à Göppingen (0,79 €/kg vs 0,67 €/kg en moyenne, 9 ventes)</li>
+      </ul>
+    </article>
+
+    <!-- 6. SAISONNALITE -->
+    <article class="card wide">
+      <div class="card-head"><span class="card-num">06</span><h2>Saisonnalité &amp; planification</h2></div>
+      <p class="insight">Spargel et Kartoffeln culminent au printemps, Wein et Weizen en été, Filderkraut et Äpfel en hiver — un cycle cohérent sur toute la période 2021-2026 (2026 inclus), qui permet d'anticiper les besoins en main-d'œuvre de récolte et en capacité de stockage plutôt que de les subir.</p>
+      <svg viewBox="0 0 460 225" role="img" aria-label="Volume vendu par saison, réparti par famille de produit">
+        <line class="grid-line" x1="40" y1="20" x2="440" y2="20"></line>
+        <line class="grid-line" x1="40" y1="65" x2="440" y2="65"></line>
+        <line class="grid-line" x1="40" y1="110" x2="440" y2="110"></line>
+        <line class="grid-line" x1="40" y1="155" x2="440" y2="155"></line>
+        <line class="grid-line" x1="40" y1="200" x2="440" y2="200" stroke="var(--border-strong)"></line>
+        <text class="axis-label" x="34" y="23" text-anchor="end">4 000</text>
+        <text class="axis-label" x="34" y="68" text-anchor="end">3 000</text>
+        <text class="axis-label" x="34" y="113" text-anchor="end">2 000</text>
+        <text class="axis-label" x="34" y="158" text-anchor="end">1 000</text>
+        <text class="axis-label" x="34" y="203" text-anchor="end">0</text>
+
+        <!-- Printemps: pic Spargel/Kartoffeln (Legumes) -->
+        <rect class="mark" x="65" y="125.4" width="60" height="74.6" fill="var(--c-blue)"><title>Printemps · Légumes : 1 740 kg/t</title></rect>
+        <rect class="mark" x="65" y="96.4" width="60" height="29.0" fill="var(--c-aqua)"><title>Printemps · Fruits : 677 kg/t</title></rect>
+        <rect class="mark" x="65" y="57.0" width="60" height="39.4" fill="var(--c-yellow)"><title>Printemps · Céréales : 919 kg/t</title></rect>
+        <rect class="mark" x="65" y="47.0" width="60" height="10.0" fill="var(--c-magenta)"><title>Printemps · Viticulture : 234 kg/t</title></rect>
+
+        <!-- Ete: pic Wein/Weizen -->
+        <rect class="mark" x="165" y="138.8" width="60" height="61.2" fill="var(--c-blue)"><title>Été · Légumes : 1 427 kg/t</title></rect>
+        <rect class="mark" x="165" y="110.3" width="60" height="28.5" fill="var(--c-aqua)"><title>Été · Fruits : 666 kg/t</title></rect>
+        <rect class="mark" x="165" y="35.3" width="60" height="75.0" fill="var(--c-yellow)"><title>Été · Céréales : 1 750 kg/t (pic)</title></rect>
+        <rect class="mark" x="165" y="21.6" width="60" height="13.7" fill="var(--c-magenta)"><title>Été · Viticulture : 320 kg/t (pic)</title></rect>
+
+        <rect class="mark" x="265" y="132.2" width="60" height="67.8" fill="var(--c-blue)"><title>Automne · Légumes : 1 582 kg/t</title></rect>
+        <rect class="mark" x="265" y="93.2" width="60" height="39.0" fill="var(--c-aqua)"><title>Automne · Fruits : 910 kg/t</title></rect>
+        <rect class="mark" x="265" y="38.7" width="60" height="54.5" fill="var(--c-yellow)"><title>Automne · Céréales : 1 273 kg/t</title></rect>
+        <rect class="mark" x="265" y="29.4" width="60" height="9.3" fill="var(--c-magenta)"><title>Automne · Viticulture : 215 kg/t</title></rect>
+
+        <!-- Hiver: pic Filderkraut/Apfel (Fruits) -->
+        <rect class="mark" x="365" y="150.2" width="60" height="49.8" fill="var(--c-blue)"><title>Hiver · Légumes : 1 163 kg/t</title></rect>
+        <rect class="mark" x="365" y="109.7" width="60" height="40.5" fill="var(--c-aqua)"><title>Hiver · Fruits : 945 kg/t (pic)</title></rect>
+        <rect class="mark" x="365" y="57.4" width="60" height="52.2" fill="var(--c-yellow)"><title>Hiver · Céréales : 1 219 kg/t</title></rect>
+        <rect class="mark" x="365" y="49.4" width="60" height="8.0" fill="var(--c-magenta)"><title>Hiver · Viticulture : 187 kg/t</title></rect>
+
+        <text class="cat-label" x="95" y="215" text-anchor="middle">Printemps</text>
+        <text class="cat-label" x="195" y="215" text-anchor="middle">Été</text>
+        <text class="cat-label" x="295" y="215" text-anchor="middle">Automne</text>
+        <text class="cat-label" x="395" y="215" text-anchor="middle">Hiver</text>
+      </svg>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-blue)"></span>Légumes (Filderkraut, Spargel, Kartoffeln)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-aqua)"></span>Fruits (Äpfel)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-yellow)"></span>Céréales (Weizen)</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--c-magenta)"></span>Viticulture (Wein)</span>
+      </div>
+      <details class="table-toggle">
+        <summary>Voir les données en tableau</summary>
+        <table class="table-view">
+          <caption>Volume vendu (kg/t) par saison et famille de produit</caption>
+          <thead><tr><th>Saison</th><th class="num">Légumes</th><th class="num">Fruits</th><th class="num">Céréales</th><th class="num">Viticulture</th><th class="num">Total</th></tr></thead>
+          <tbody>
+            <tr><td>Printemps</td><td class="num">1 740,1</td><td class="num">677,1</td><td class="num">919,0</td><td class="num">233,9</td><td class="num">3 570,1</td></tr>
+            <tr><td>Été</td><td class="num">1 427,0</td><td class="num">666,0</td><td class="num">1 749,7</td><td class="num">320,4</td><td class="num">4 163,1</td></tr>
+            <tr><td>Automne</td><td class="num">1 581,7</td><td class="num">909,6</td><td class="num">1 273,4</td><td class="num">215,4</td><td class="num">3 980,1</td></tr>
+            <tr><td>Hiver</td><td class="num">1 162,9</td><td class="num">945,2</td><td class="num">1 218,9</td><td class="num">186,5</td><td class="num">3 513,5</td></tr>
+          </tbody>
+        </table>
+      </details>
+    </article>
+
+  </section>
+
+  <footer class="notes">
+    <p>Données fictives générées à des fins pédagogiques (Module 3, Claude2.0). Base nettoyée : 493 lignes sur 534 auditées (27 doublons supprimés, 14 dates non exploitables exclues). 78 lignes conservent une valeur manquante non récupérable — jamais estimée, seulement recalculée quand la donnée existait ailleurs dans la ligne.</p>
+    <p>Point 7 (qualité des données, coût de la non-qualité ≈ 1 526 €) traité dans le rapport d'audit complet — non repris ici, à usage interne opérationnel plutôt que décisionnel.</p>
+  </footer>
+
+</div>
